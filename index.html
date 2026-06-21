@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>NDSL music — Future Sound Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 🌌 ОБЪЕМНАЯ КЛУБНАЯ ЗАСТАВКА -->
+    <div class="splash-screen" id="splash-screen">
+        <div class="splash-content">
+            <h1 class="splash-logo">NDSL <span class="splash-sublogo">music</span></h1>
+            <div class="splash-loader">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <p class="splash-text">LOADING AUDIO SYSTEM...</p>
+        </div>
+    </div>
+
+    <!-- 📱 ГЛАВНЫЙ ИНТЕРФЕЙС ПРИЛОЖЕНИЯ -->
+    <div class="app-container">
+        
+        <header class="brand-header">
+            <h1 class="logo">NDSL <span>music</span></h1>
+            <p class="tagline">FUTURE SOUND SYSTEM</p>
+        </header>
+
+        <!-- Переключатели вайбов -->
+        <section class="genres-section">
+            <h3 class="section-title">Твой сегодняшний вайб</h3>
+            <div class="genres-grid">
+                <div class="genre-card house" data-genre="house">Моя Музыка</div>
+                <div class="genre-card cyber" data-genre="cyberpunk">Cyberpunk</div>
+                <div class="genre-card techno" data-genre="techno">Dark Techno</div>
+                <div class="genre-card synth" data-genre="synthwave">Synthwave</div>
+            </div>
+        </section>
+
+        <main class="main-content">
+            
+            <!-- Модуль плеера -->
+            <div class="player-wrapper">
+                
+                <!-- Аппаратный вертикальный регулятор звука (справа) -->
+                <div class="volume-container">
+                    <span class="volume-icon">🔊</span>
+                    <div class="volume-track-wrapper">
+                        <div class="volume-progress" id="volume-progress"></div>
+                        <!-- Добавлен атрибут orient="vertical" для аппаратной поддержки браузерами -->
+                        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7" class="volume-slider" orient="vertical">
+                    </div>
+                    <span class="volume-icon">🔈</span>
+                </div>
+
+                <!-- Центральный эквалайзер частот звука -->
+                <div class="cover-box">
+                    <div class="club-visualizer">
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                        <div class="eq-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="track-info">
+                    <h2 class="track-title" id="title">NDSL Player</h2>
+                     <p class="track-artist" id="artist">Загрузите вашу музыку</p>
+                </div>
+
+                <audio id="audio-element"></audio>
+
+                <div class="upload-block">
+                    <label for="file-upload" class="custom-file-upload">
+                        📂 Открыть папку с музыкой
+                    </label>
+                    <input type="file" id="file-upload" accept="audio/mp3" multiple>
+                </div>
+
+                <div class="progress-block">
+                    <span class="time-stamp" id="current-time">0:00</span>
+                    <div class="progress-container" id="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                    <span class="time-stamp" id="duration-time">0:00</span>
+                </div>
+
+                <!-- Кнопки плеера + техно-кнопки Loop/Shuffle -->
+                <div class="controls-wrapper">
+                    <div class="controls">
+                        <button class="btn nav-btn" id="prev-btn">⏮</button>
+                        <button class="btn play-btn" id="play-btn">▶</button>
+                        <button class="btn nav-btn" id="next-btn">⏭</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="shuffle-btn" id="shuffle-btn">🔀 Shuffle</button>
+                        <button class="loop-btn" id="loop-btn">🔁 Loop</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Статичный плейлист -->
+            <div class="playlist-wrapper">
+                <h3 class="section-title">Треки в категории</h3>
+                <div class="playlist-tracks" id="playlist-container"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
