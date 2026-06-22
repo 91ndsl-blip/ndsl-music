@@ -1,6 +1,3 @@
-/* ========================================================
-   🪐 ОБНУЛЕНИЕ И ОБЪЕМНЫЕ СВЕТОВЫЕ ЭФФЕКТЫ ФОНА (NEON BACKLIGHT)
-   ======================================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -22,7 +19,6 @@ body {
     transition: background 0.8s ease;
 }
 
-/* Объемное фоновое 3D-свечение */
 body::before {
     content: '';
     position: absolute;
@@ -36,13 +32,11 @@ body::before {
     pointer-events: none;
 }
 
-/* Динамические клубные оттенки под каждый вайб */
 body.theme-house::before { background: radial-gradient(circle, rgba(0, 242, 254, 0.12) 0%, rgba(0,0,0,0) 70%); }
 body.theme-cyberpunk::before { background: radial-gradient(circle, rgba(218, 27, 96, 0.15) 0%, rgba(0,0,0,0) 70%); }
 body.theme-techno::before { background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(0,0,0,0) 70%); }
 body.theme-synthwave::before { background: radial-gradient(circle, rgba(127, 0, 255, 0.15) 0%, rgba(0,0,0,0) 70%); }
 
-/* Стробоскопические вспышки фона в такт */
 @keyframes backgroundStrobe {
     0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
     100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
@@ -52,9 +46,6 @@ body.audio-playing::before { animation: backgroundStrobe 0.7s infinite alternate
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-thumb { background: #ff007f; border-radius: 10px; }
 
-/* ========================================================
-   ⚡ КЛУБНЫЙ SPLASH SCREEN С НАДПИСЬЮ MUSIC
-   ======================================================== */
 .splash-screen {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -74,10 +65,6 @@ body.audio-playing::before { animation: backgroundStrobe 0.7s infinite alternate
     color: #ff007f; font-size: 2.8rem; font-weight: 400; text-transform: lowercase;
     letter-spacing: 2px; text-shadow: 0 0 15px #ff007f; margin-left: 10px; display: inline-block;
 }
-@keyframes pulseGlow {
-    from { text-shadow: 0 0 20px #00f2fe, 0 0 40px #ff007f; }
-    to { text-shadow: 0 0 35px #00f2fe, 0 0 60px #ff007f, 0 0 100px #ff007f; }
-}
 
 .splash-loader { display: flex; justify-content: center; align-items: flex-end; gap: 5px; height: 35px; margin-bottom: 20px; }
 .splash-loader .bar { width: 4px; height: 8px; background: #ff007f; animation: bounceLoader 0.5s infinite alternate; }
@@ -88,17 +75,12 @@ body.audio-playing::before { animation: backgroundStrobe 0.7s infinite alternate
 @keyframes bounceLoader { from { height: 6px; } to { height: 35px; } }
 .splash-text { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; letter-spacing: 4px; color: rgba(255,255,255,0.4); }
 
-/* ========================================================
-   🎛️ ТРЕХМЕРНЫЙ ИНТЕРФЕЙС И КЛУБНЫЕ ЭЛЕМЕНТЫ
-   ======================================================== */
 .app-container {
     width: 100%; max-width: 950px;
     background: linear-gradient(135deg, rgba(20, 11, 36, 0.5) 0%, rgba(9, 4, 18, 0.6) 100%);
     backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
     border: 1px solid rgba(255, 0, 127, 0.15); border-radius: 24px; padding: 35px;
-    box-shadow: 
-        0 30px 70px rgba(0, 0, 0, 0.9),
-        inset 0 1px 1px rgba(255, 255, 255, 0.1); /* 3D внутренний блик */
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .brand-header { text-align: center; margin-bottom: 20px; }
@@ -111,9 +93,7 @@ body.audio-playing::before { animation: backgroundStrobe 0.7s infinite alternate
 
 .genre-card {
     padding: 14px 8px; border-radius: 12px; font-weight: 700; font-size: 0.9rem;
-    cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
-    border: 1px solid rgba(255,255,255,0.02); text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    cursor: pointer; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.02); text-align: center;
 }
 .genre-card.cyber { background: linear-gradient(135deg, #220329, #4a0303); }
 .genre-card.house { background: linear-gradient(135deg, #024385, #01542a); }
@@ -123,25 +103,18 @@ body.audio-playing::before { animation: backgroundStrobe 0.7s infinite alternate
 
 .main-content { display: grid; grid-template-columns: 1fr 1.2fr; gap: 45px; align-items: start; }
 
-/* Плеер */
 .player-wrapper {
     background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04);
     border-radius: 16px; padding: 25px 20px; text-align: center; position: relative;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
 }
 
-/* Кольцо светомузыки */
 .cover-box {
     width: 130px; height: 130px; margin: 0 auto 20px auto; position: relative;
     border-radius: 50%; background: radial-gradient(circle, #170929 0%, #030107 100%);
     border: 2px solid rgba(0, 242, 254, 0.2); box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
-    display: flex; justify-content: center; align-items: flex-end; padding-bottom: 20px; transition: all 0.4s ease;
+    display: flex; justify-content: center; align-items: flex-end; padding-bottom: 20px;
 }
 .cover-box.playing { border-color: #ff007f; animation: strobeGlow 0.8s infinite alternate ease-in-out; }
-@keyframes strobeGlow {
-    from { box-shadow: 0 0 15px rgba(255, 0, 127, 0.3), inset 0 0 10px rgba(255, 0, 127, 0.1); }
-    to { box-shadow: 0 0 35px #ff007f, 0 0 60px rgba(0, 242, 254, 0.4), inset 0 0 15px #ff007f; }
-}
 
 .club-visualizer { display: flex; justify-content: center; align-items: flex-end; gap: 5px; height: 60px; width: 100%; }
 .eq-bar { width: 5px; height: 8px; background: #00f2fe; border-radius: 3px; }
@@ -151,16 +124,23 @@ body.audio-playing::before { animation: backgroundStrobe 0.7s infinite alternate
 .eq-bar:nth-child(4) { background: #7f00ff; }
 .eq-bar:nth-child(5) { background: #00f2fe; }
 
-/* ЖЕСТКАЯ ФИКСАЦИЯ ИНФОБЛОКА — КОНТЕНТ НИКОГДА НЕ ПРЫГАЕТ */
 .track-info { min-height: 56px; max-height: 56px; display: flex; flex-direction: column; justify-content: center; margin-bottom: 15px; overflow: hidden; }
 .track-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .track-artist { font-size: 0.9rem; color: #00f2fe; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.upload-block { margin-bottom: 15px; }
-.custom-file-upload {
-    display: inline-block; padding: 8px 18px; cursor: pointer; background: rgba(0, 242, 254, 0.05);
-    border: 1px dashed #00f2fe; border-radius: 30px; font-size: 0.8rem; font-weight: 600; color: #00f2fe;
+/* 📂 СТАБИЛИЗАТОР КНОПКИ ЗАГРУЗКИ */
+.upload-wrapper-fixed {
+    min-height: 40px; max-height: 40px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; overflow: hidden;
 }
+.upload-block { position: relative; display: inline-block; }
+input[type="file"] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: -1; }
+
+.custom-file-upload {
+    display: inline-block; padding: 10px 22px; cursor: pointer; background: rgba(0, 242, 254, 0.04);
+    border: 1px dashed #00f2fe; border-radius: 30px; font-size: 0.8rem; font-weight: 600; color: #00f2fe;
+    text-transform: uppercase; letter-spacing: 1px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.5); transition: all 0.3s ease;
+}
+.custom-file-upload:hover { background: rgba(0, 242, 254, 0.1); color: #ffffff; border-color: #ff007f; box-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
 
 .progress-block { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
 .time-stamp { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: rgba(255,255,255,0.4); width: 40px; }
@@ -180,30 +160,33 @@ body.audio-playing::before { animation: backgroundStrobe 0.7s infinite alternate
 }
 .play-btn:hover { transform: scale(1.05); background: #ff007f; border-color: transparent; box-shadow: 0 0 15px #ff007f; }
 
-/* ========================================================
-   🎛️ ИСПРАВЛЕННЫЙ ПРАВЫЙ ВЕРТИКАЛЬНЫЙ ПОЛЗУНОК ГРОМКОСТИ
-   ======================================================== */
+/* 🎛️ ВЕРТИКАЛЬНАЯ ДИДЖЕЙСКАЯ ШКАЛА ГРОМКОСТИ С ПРАВОГО БОКУ */
 .volume-container {
     position: absolute;
-    right: -25px; /* Выносим на правый бок контейнера плеера */
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    background: rgba(13, 6, 24, 0.7);
-    padding: 15px 8px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    right: -25px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    background: rgba(13, 6, 24, 0.7); padding: 15px 8px; border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.04); box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
-.volume-icon { font-size: 0.8rem; opacity: 0.5; }.volume-track-wrapper {position: relative;width: 6px;height: 120px; /* Идеальная клубная высота */background: rgba(255, 255, 255, 0.05);border-radius: 10px;box-shadow: inset 0 2px 5px rgba(0,0,0,0.7);}/* Светящаяся полоса заполнения уровня звука */.volume-progress {position: absolute;bottom: 0; left: 0; width: 100%;height: 70%;background: linear-gradient(to top, #00f2fe, #ff007f);border-radius: 10px;box-shadow: 0 0 12px #00f2fe;pointer-events: none; /* Пропускает нажатия на слайдер под ним */}/* Родной вертикальный слайдер без разворотов в CSS */
-.volume-slider {-webkit-appearance: slider-vertical; -webkit-appearance: none;
-appearance: none;
-    /* Аппаратный запуск вертикального режима */
-    width: 20px;height: 100%;position: absolute;top: 0; left: 50%;transform: translateX(-50%);opacity: 0;
-     /* Делаем невидимым, оставляя только кликабельную зону и кругляшок */cursor: pointer;z-index: 5;margin: 0;}
-     /* Кастомный светящийся кругляшок для Chrome/Safari */.volume-container:hover .volume-slider {opacity: 0.1;
-         /* Слегка проявляем зону при наведении для удобства */
-        }/* ========================================================🎛️ МИНИМАЛ-ТЕХНО КНОПКИ SHUFFLE И LOOP======================================================== */.action-buttons { display: flex; justify-content: center; gap: 12px; }.shuffle-btn, .loop-btn {background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);color: rgba(255, 255, 255, 0.3); padding: 6px 14px; border-radius: 20px;font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 1px; cursor: pointer;transition: all 0.3s ease; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);}.shuffle-btn:hover, .loop-btn:hover { color: rgba(255,255,255,0.7); }/* Эффект активации (Вспышка и пульсация) */.shuffle-btn.active, .loop-btn.active {background: rgba(255, 0, 127, 0.08); color: #ff007f; border-color: #ff007f;font-weight: 700; text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);box-shadow: 0 0 15px rgba(255, 0, 127, 0.3), inset 0 1px 3px rgba(255, 0, 127, 0.2);}/* Плейлист */.playlist-wrapper { display: flex; flex-direction: column; height: 335px; overflow: hidden; }.playlist-tracks { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }.playlist-item {display: flex; align-items: center; gap: 12px; padding: 10px 14px;background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.02);border-radius: 10px; cursor: pointer; transition: background 0.2s;}.playlist-item.active { background: rgba(255, 0, 127, 0.07); border-color: #ff007f; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }.playlist-item:hover { background: rgba(255, 255, 255, 0.03); }.pl-idx { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: rgba(255,255,255,0.3); width: 15px; }.pl-meta { flex-grow: 1; overflow: hidden; }.pl-title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }.pl-artist { font-size: 0.75rem; color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }/* Мобильная адаптация */@media (max-width: 768px) {body { padding: 0; height: 100vh; align-items: stretch; }.app-container { border: none; border-radius: 0; padding: 15px; background: #06020a; height: 100vh; max-height: 100vh; }.genres-grid { grid-template-columns: repeat(4, 115px); overflow-x: auto; gap: 8px; }.main-content { grid-template-columns: 1fr; gap: 12px; flex-grow: 1; overflow: hidden; }.cover-box { width: 85px; height: 85px; padding-bottom: 10px; }.volume-container { display: none; } /* Скрываем на смартфонах ради экономии места */.playlist-wrapper { flex-grow: 1; height: auto; }}
+.volume-icon { font-size: 0.8rem; opacity: 0.5; }
+
+.volume-track-wrapper {
+    position: relative; width: 6px; height: 120px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.7);
+}
+
+.volume-progress {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 70%;
+    background: linear-gradient(to top, #00f2fe, #ff007f); border-radius: 10px; box-shadow: 0 0 12px #00f2fe; pointer-events: none;
+}
+
+.volume-slider {
+    -webkit-appearance: slider-vertical; /* Аппаратный запуск вертикального режима ОС */
+    width: 20px; height: 100%; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    opacity: 0.1; cursor: pointer; z-index: 5; margin: 0;
+}
+
+/* 🎛️ МИНИМАЛ-ТЕХНО КНОПКИ SHUFFLE И LOOP */
+.action-buttons { display: flex; justify-content: center; gap: 12px; }
+.shuffle-btn, .loop-btn {
+    background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
+color: rgba(255, 255, 255, 0.3); padding: 6px 14px; border-radius: 20px;font-family: 'Orbitron', sans-serif; font-size: 0.7rem; letter-spacing: 1px; cursor: pointer;transition: all 0.3s ease; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);}.shuffle-btn:hover, .loop-btn:hover { color: rgba(255,255,255,0.7); }.shuffle-btn.active, .loop-btn.active {background: rgba(255, 0, 127, 0.08); color: #ff007f; border-color: #ff007f;font-weight: 700; text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);box-shadow: 0 0 15px rgba(255, 0, 127, 0.3), inset 0 1px 3px rgba(255, 0, 127, 0.2);}.playlist-wrapper { display: flex; flex-direction: column; height: 335px; overflow: hidden; }.playlist-tracks { flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }.playlist-item {display: flex; align-items: center; gap: 12px; padding: 10px 14px;background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.02);border-radius: 10px; cursor: pointer; transition: background 0.2s;}.playlist-item.active { background: rgba(255, 0, 127, 0.07); border-color: #ff007f; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }.playlist-item:hover { background: rgba(255, 255, 255, 0.03); }.pl-idx { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: rgba(255,255,255,0.3); width: 15px; }.pl-meta { flex-grow: 1; overflow: hidden; }.pl-title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }.pl-artist { font-size: 0.75rem; color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }@media (max-width: 768px) {body { padding: 0; height: 100vh; align-items: stretch; }.app-container { border: none; border-radius: 0; padding: 15px; background: #06020a; height: 100vh; max-height: 100vh; }.genres-grid { grid-template-columns: repeat(4, 115px); overflow-x: auto; gap: 8px; }.main-content { grid-template-columns: 1fr; gap: 12px; flex-grow: 1; overflow: hidden; }.cover-box { width: 85px; height: 85px; padding-bottom: 10px; }.volume-container { display: none; }.playlist-wrapper { flex-grow: 1; height: auto; }}
