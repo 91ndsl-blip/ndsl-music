@@ -30,7 +30,7 @@ window.addEventListener('load', function() {
     // Переменные эквалайзера частот звука и ГРОМКОСТИ (Web Audio API)
     var audioContext = null;
     var analyser = null;
-    var gainNode = null; // Специальный цифровой узел для регулировки громкости
+    var gainNode = null; 
     var dataArray = null;
     var animationFrameId = null;
 
@@ -69,7 +69,7 @@ window.addEventListener('load', function() {
         artist.innerText = song.artist;
         audio.src = song.src;
         
-        // Аппаратное зацикливание
+        // Аппаратное зацикливание тега audio
         audio.loop = isLoopActive;
         
         updatePlaylistHighlight();
@@ -100,14 +100,14 @@ window.addEventListener('load', function() {
     }
 
     function prevSong() {
-        if (currentTracks.length <= 1 && currentTracks.src === "") return;
+        if (currentTracks.length <= 1 && currentTracks[0].src === "") return;
         songIndex = (songIndex - 1 + currentTracks.length) % currentTracks.length;
         loadSong(currentTracks[songIndex]);
         if (isPlaying && audio) audio.play().then(renderEqualizer).catch(function() {});
     }
 
     function nextSong() {
-        if (currentTracks.length <= 1 && currentTracks.src === "") return;
+        if (currentTracks.length <= 1 && currentTracks[0].src === "") return;
         songIndex = (songIndex + 1) % currentTracks.length;
         loadSong(currentTracks[songIndex]);
         if (isPlaying && audio) audio.play().then(renderEqualizer).catch(function() {});
@@ -115,7 +115,7 @@ window.addEventListener('load', function() {
 
     function toggleShuffle(e) {
         if (e) e.preventDefault();
-        if (currentTracks.length <= 1 && currentTracks.src === "") return;
+        if (currentTracks.length <= 1 && currentTracks[0].src === "") return;
         if (!shuffleBtn) return;
         
         isShuffleActive = !isShuffleActive;
@@ -166,7 +166,7 @@ window.addEventListener('load', function() {
     function setProgress(e) {
         if (!audio || !audio.duration) return;
         var width = this.clientWidth;
-        var clickX = e.offsetX || (e.touches ? e.touches.clientX - this.getBoundingClientRect().left : 0);
+        var clickX = e.offsetX || (e.touches ? e.touches[0].clientX - this.getBoundingClientRect().left : 0);
         audio.currentTime = (clickX / width) * audio.duration;
     }
 
@@ -236,7 +236,7 @@ window.addEventListener('load', function() {
         originalTracks = currentTracks.slice();
         songIndex = 0;
         
-        if (isShuffleActive && currentTracks.length > 0 && currentTracks.src !== "") {
+        if (isShuffleActive && currentTracks.length > 0 && currentTracks[0].src !== "") {
             for (var i = currentTracks.length - 1; i > 0; i--) {
                 var j = Math.floor(Math.random() * (i + 1));
                 var temp = currentTracks[i];
@@ -246,15 +246,16 @@ window.addEventListener('load', function() {
         }
         setActiveGenreCard();
         buildPlaylist();
-if (currentTracks.length > 0) loadSong(currentTracks[songIndex]);updateBackgroundTheme();if (isPlaying && currentTracks.length > 0 && currentTracks[songIndex].src !== "" && audio) {audio.play().then(renderEqualizer);} else if (isPlaying) {togglePlay();}}function handleFolderUpload(e) {var files = Array.from(e.target.files);if (files.length === 0) return;trackDatabase.house = [];files.forEach(function(file) {trackDatabase.house.push({title: file.name.replace(/.[^/.]+$/, ""),artist: "Локальный файл",src: URL.createObjectURL(file)});});currentGenre = "house";currentTracks = trackDatabase["house"].slice();originalTracks = currentTracks.slice();songIndex = 0;if (isShuffleActive) {for (var i = currentTracks.length - 1; i > 0; i--) {var j = Math.floor(Math.random() * (i + 1));var temp = currentTracks[i];currentTracks[i] = currentTracks[j];currentTracks[j] = temp;}}setActiveGenreCard();buildPlaylist();loadSong(currentTracks[songIndex]);updateBackgroundTheme();if (!isPlaying) togglePlay(); else if (audio) audio.play().then(renderEqualizer);}// 4. МАРШРУТИЗАЦИЯ ЦИФРОВОГО ЗВУКА И НАСТОЯЩИЙ ЭКВАЛАЙЗЕР (WEB AUDIO API)
-function initWebAudioAPI() {if (audioContext || !audio) return;try {audioContext = new (window.AudioContext || window.webkitAudioContext)();var source = audioContext.createMediaElementSource(audio);analyser = audioContext.createAnalyser();gainNode = audioContext.createGain(); // Создаем регулятор громкости [1]// СОБИРАЕМ ПРАВИЛЬНУЮ ЦЕПОЧКУ ЗВУКА:// Плеер -> Анализатор частот -> Регулятор громкости -> Динамики устройства [1]
-source.connect(analyser);analyser.connect(gainNode);gainNode.connect(audioContext.destination);analyser.fftSize = 32;dataArray = new Uint8Array(analyser.frequencyBinCount);// Синхронизируем стартовый уровень громкости в цифровой ноде с ползунком на сайте
-if (volumeSlider) {gainNode.gain.setValueAtTime(volumeSlider.value, audioContext.currentTime);}} catch (err) {console.log(err);}}function renderEqualizer() {if (!isPlaying || !analyser || !eqBars) {if (eqBars) {eqBars.forEach(function(bar) { bar.style.height = '8px'; });}cancelAnimationFrame(animationFrameId);return;}animationFrameId = requestAnimationFrame(renderEqualizer);analyser.getByteFrequencyData(dataArray);eqBars.forEach(function(bar, i) {var val = ((dataArray[i * 2] || 0) / 255) * 52;bar.style.height = (val < 8 ? 8 : val) + "px";});}// 5. ИНТЕРАКТИВНОЕ ОБНОВЛЕНИЕ ЦИФРОВОЙ ГРОМКОСТИ И НЕОНОВОЙ ШКАЛЫ [1]
-function updateVolumeProgress() {if (volumeSlider && volumeProgress) {var valPercent = volumeSlider.value * 100;volumeProgress.style.height = valPercent + "%";// Если Web Audio API уже запущен, меняем громкость внутри цифрового узла gainNode [1]
-if (gainNode && audioContext) {gainNode.gain.setValueAtTime(volumeSlider.value, audioContext.currentTime);} else if (audio) {// Если контекст еще не создан, меняем базовую громкость тега
-audio.volume = volumeSlider.value;}}}function updateMediaSession(song) {if ('mediaSession' in navigator) {navigator.mediaSession.metadata = new MediaMetadata({title: song.title,artist: song.artist,album: "NDSL music System",artwork: [{ src: 'picsum.photos', sizes: '300x300', type: 'image/png' }]});navigator.mediaSession.setActionHandler('play', togglePlay);navigator.mediaSession.setActionHandler('pause', togglePlay);navigator.mediaSession.setActionHandler('previoustrack', prevSong);navigator.mediaSession.setActionHandler('nexttrack', nextSong);}}// 6. НАВЕШИВАНИЕ ОБРАБОТЧИКОВ И СТАРТ СИСТЕМЫ NDSL
-if (playBtn) playBtn.addEventListener('click', togglePlay);if (prevBtn) prevBtn.addEventListener('click', prevSong);if (nextBtn) nextBtn.addEventListener('click', nextSong);if (shuffleBtn) shuffleBtn.addEventListener('click', toggleShuffle);if (loopBtn) loopBtn.addEventListener('click', toggleLoop);if (audio) audio.addEventListener('timeupdate', updateProgress);if (progressContainer) progressContainer.addEventListener('click', setProgress);if (fileUpload) fileUpload.addEventListener('change', handleFolderUpload);if (audio) {audio.addEventListener('ended', function() {if (!isLoopActive) {nextSong();}});}genreCards.forEach(function(card) {card.addEventListener('click', handleGenreChange);});if (volumeSlider) {volumeSlider.value = 0.7; // Устанавливаем громкость по умолчанию на 70%
-updateVolumeProgress();volumeSlider.addEventListener('input', updateVolumeProgress);}// Первичная сборка и запуск плеера
+if (currentTracks.length > 0) loadSong(currentTracks[songIndex]);updateBackgroundTheme();if (isPlaying && currentTracks.length > 0 && currentTracks[songIndex].src !== "" && audio) {audio.play().then(renderEqualizer);} else if (isPlaying) {togglePlay();}}// ИСПРАВЛЕННАЯ СИСТЕМНАЯ МОБИЛЬНАЯ ЗАГРУЗКА ФАЙЛОВ
+function handleFolderUpload(e) {var files = Array.from(e.target.files);if (files.length === 0) return;trackDatabase.house = [];files.forEach(function(file) {// Пропускаем только аудиофайлы
+if (file.name.toLowerCase().endsWith('.mp3') || file.type.indexOf('audio') !== -1) {trackDatabase.house.push({title: file.name.replace(/.[^/.]+$/, ""),artist: "Локальный файл",src: URL.createObjectURL(file)});}});if (trackDatabase.house.length === 0) {trackDatabase.house.push({ title: "В папке нет MP3 треков", artist: "Попробуйте выбрать другую", src: "" });}currentGenre = "house";currentTracks = trackDatabase["house"].slice();originalTracks = currentTracks.slice();songIndex = 0;if (isShuffleActive && currentTracks[0].src !== "") {for (var i = currentTracks.length - 1; i > 0; i--) {var j = Math.floor(Math.random() * (i + 1));var temp = currentTracks[i];currentTracks[i] = currentTracks[j];currentTracks[j] = temp;}}setActiveGenreCard();buildPlaylist();loadSong(currentTracks[songIndex]);updateBackgroundTheme();if (currentTracks[0].src !== "") {if (!isPlaying) togglePlay();
+ else if (audio) audio.play().then(renderEqualizer);}}
+
+ // 4. МАРШРУТИЗАЦИЯ ЦИФРОВОГО ЗВУКА И НАСТОЯЩИЙ ЭКВАЛАЙЗЕР (WEB AUDIO API)
+
+function initWebAudioAPI() {if (audioContext || !audio) return;try {audioContext = new (window.AudioContext || window.webkitAudioContext)();var source = audioContext.createMediaElementSource(audio);analyser = audioContext.createAnalyser();gainNode = audioContext.createGain();source.connect(analyser);analyser.connect(gainNode);gainNode.connect(audioContext.destination);analyser.fftSize = 32;dataArray = new Uint8Array(analyser.frequencyBinCount);if (volumeSlider) {gainNode.gain.setValueAtTime(volumeSlider.value, audioContext.currentTime);}} catch (err) {console.log(err);}}function renderEqualizer() {if (!isPlaying || !analyser || !eqBars) {if (eqBars) {eqBars.forEach(function(bar) { bar.style.height = '8px'; });}cancelAnimationFrame(animationFrameId);return;}animationFrameId = requestAnimationFrame(renderEqualizer);analyser.getByteFrequencyData(dataArray);eqBars.forEach(function(bar, i) {var val = ((dataArray[i * 2] || 0) / 255) * 52;bar.style.height = (val < 8 ? 8 : val) + "px";});}// 5. ИНТЕРАКТИВНОЕ ОБНОВЛЕНИЕ СЛАЙДЕРА ГРОМКОСТИ С ПОЛОСОЙ ЗАПОЛНЕНИЯ
+function updateVolumeProgress() {if (volumeSlider && volumeProgress) {var valPercent = volumeSlider.value * 100;volumeProgress.style.height = valPercent + "%";if (gainNode && audioContext) {gainNode.gain.setValueAtTime(volumeSlider.value, audioContext.currentTime);} else if (audio) {audio.volume = volumeSlider.value;}}}function updateMediaSession(song) {if ('mediaSession' in navigator) {navigator.mediaSession.metadata = new MediaMetadata({title: song.title,artist: song.artist,album: "NDSL music System",artwork: [{ src: 'picsum.photos', sizes: '300x300', type: 'image/png' }]});navigator.mediaSession.setActionHandler('play', togglePlay);navigator.mediaSession.setActionHandler('pause', togglePlay);navigator.mediaSession.setActionHandler('previoustrack', prevSong);navigator.mediaSession.setActionHandler('nexttrack', nextSong);}}// 6. НАВЕШИВАНИЕ ОБРАБОТЧИКОВ И СТАРТ СИСТЕМЫ NDSL
+if (playBtn) playBtn.addEventListener('click', togglePlay);if (prevBtn) prevBtn.addEventListener('click', prevSong);if (nextBtn) nextBtn.addEventListener('click', nextSong);if (shuffleBtn) shuffleBtn.addEventListener('click', toggleShuffle);if (loopBtn) loopBtn.addEventListener('click', toggleLoop);if (audio) audio.addEventListener('timeupdate', updateProgress);if (progressContainer) progressContainer.addEventListener('click', setProgress);if (fileUpload) fileUpload.addEventListener('change', handleFolderUpload);if (audio) {audio.addEventListener('ended', function() {if (!isLoopActive) {nextSong();}});}genreCards.forEach(function(card) {card.addEventListener('click', handleGenreChange);});if (volumeSlider) {volumeSlider.value = 0.7;updateVolumeProgress();volumeSlider.addEventListener('input', updateVolumeProgress);}// Первичная сборка и запуск плеера
 setActiveGenreCard();buildPlaylist();loadSong(currentTracks[songIndex]);updateBackgroundTheme();
 // Плавный запуск интерфейса после 3 секунд заставки
 setTimeout(function() {if (splashScreen) {splashScreen.classList.add('hidden');}}, 3000);});
