@@ -32,11 +32,10 @@
             <p class="tagline">FUTURE SOUND SYSTEM</p>
         </header>
 
-        <!-- Переключатели вайбов -->
         <section class="genres-section">
-            <h3 class="section-title">Твой сегодняшний вайб</h3>
+            <h3 class="section-title">Выбрать вайб</h3>
             <div class="genres-grid">
-                <div class="genre-card house" data-genre="house">Моя Музыка</div>
+                <div class="genre-card house" data-genre="house">My Library</div>
                 <div class="genre-card cyber" data-genre="cyberpunk">Cyberpunk</div>
                 <div class="genre-card techno" data-genre="techno">Dark Techno</div>
                 <div class="genre-card synth" data-genre="synthwave">Synthwave</div>
@@ -48,12 +47,11 @@
             <!-- Модуль плеера -->
             <div class="player-wrapper">
                 
-                <!-- Аппаратный вертикальный регулятор звука (справа) -->
+                <!-- Правый вертикальный регулятор звука -->
                 <div class="volume-container">
                     <span class="volume-icon">🔊</span>
                     <div class="volume-track-wrapper">
                         <div class="volume-progress" id="volume-progress"></div>
-                        <!-- Добавлен атрибут orient="vertical" для аппаратной поддержки браузерами -->
                         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.7" class="volume-slider" orient="vertical">
                     </div>
                     <span class="volume-icon">🔈</span>
@@ -72,16 +70,19 @@
                 
                 <div class="track-info">
                     <h2 class="track-title" id="title">NDSL Player</h2>
-                     <p class="track-artist" id="artist">Загрузите вашу музыку</p>
+                    <p class="track-artist" id="artist">Загрузите вашу музыку</p>
                 </div>
 
                 <audio id="audio-element"></audio>
 
-                <div class="upload-block">
-                    <label for="file-upload" class="custom-file-upload">
-                        📂 Открыть папку с музыкой
-                    </label>
-                    <input type="file" id="file-upload" accept="audio/mp3" multiple>
+                <div class="upload-wrapper-fixed">
+                    <div class="upload-block">
+                        <label for="file-upload" class="custom-file-upload">
+                            📂 Разрешить доступ к музыке
+                        </label>
+                        <!-- Исправлено: убраны атрибуты directory, блокирующие мобильный клик -->
+                        <input type="file" id="file-upload" accept="audio/mp3" multiple>
+                    </div>
                 </div>
 
                 <div class="progress-block">
@@ -92,7 +93,6 @@
                     <span class="time-stamp" id="duration-time">0:00</span>
                 </div>
 
-                <!-- Кнопки плеера + техно-кнопки Loop/Shuffle -->
                 <div class="controls-wrapper">
                     <div class="controls">
                         <button class="btn nav-btn" id="prev-btn">⏮</button>
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <!-- Статичный плейлист -->
+            <!-- Плейлист -->
             <div class="playlist-wrapper">
                 <h3 class="section-title">Треки в категории</h3>
                 <div class="playlist-tracks" id="playlist-container"></div>
